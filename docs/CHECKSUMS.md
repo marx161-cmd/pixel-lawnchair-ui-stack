@@ -1,0 +1,17 @@
+# Checksums
+
+Generated on 2026-06-13.
+
+Machine-verifiable file:
+
+- `SHA256SUMS.txt`
+
+```text
+b4af1ec344815c34c4b8df744e30d337cb9714ea5a3c4af26816a915c01fa67a  artifacts/Iconify-v8.0.0-foss-lawnchair-pxcompat-release.apk
+3f78c9fc678d97f9b6c7d0a8c42087b47462fbd57aacfb85c0d8d09c8aa1a3c8  artifacts/PixelXpert-canary-489-lawnchair-iconify-compat-release.apk
+6ba0e8e946537db1cbb51629f9835bccdebc6c8dcab18d3ba57b1392a91ac427  patches/iconify-v8-foss-lawnchair-pxcompat.patch
+99866724acaeb7035b9343e84f4087f67d1f13c158dc0e624eeef0717060b428  patches/pixelxpert-current-canary-compat.patch
+3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986  licenses/Iconify-GPL-3.0.txt
+4bb3ad323fe4c27f06a47b39c0ae6ad35315f15c40e46c81a5211f7f519286ab  licenses/Lawnchair-Apache-2.0.txt
+3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986  licenses/PixelXpert-GPL-3.0.txt
+```

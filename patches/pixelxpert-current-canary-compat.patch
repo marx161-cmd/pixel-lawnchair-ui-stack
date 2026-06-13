@@ -1,0 +1,123 @@
+diff --git a/app/src/main/java/sh/siava/pixelxpert/utils/PreferenceHelper.java b/app/src/main/java/sh/siava/pixelxpert/utils/PreferenceHelper.java
+index 90f07aff..0675e868 100644
+--- a/app/src/main/java/sh/siava/pixelxpert/utils/PreferenceHelper.java
++++ b/app/src/main/java/sh/siava/pixelxpert/utils/PreferenceHelper.java
+@@ -24,6 +24,7 @@ import sh.siava.pixelxpert.ui.preferences.MaterialPrimarySwitchPreference;
+ import sh.siava.rangesliderpreference.RangeSliderPreference;
+ 
+ public class PreferenceHelper {
++	private static final String ICONIFY_COMPATIBILITY_MODE = "IconifyCompatibilityMode";
+ 	private final ExtendedSharedPreferences mPreferences;
+ 
+ 	public static PreferenceHelper instance;
+@@ -69,8 +70,17 @@ public class PreferenceHelper {
+ 
+ 	public static boolean isVisible(String key) {
+ 		if (instance == null) return true;
++		boolean iconifyCompatibilityMode = instance.mPreferences.getBoolean(ICONIFY_COMPATIBILITY_MODE, false);
+ 
+ 		switch (key) {
++			case "NotificationIconLimit":
++			case "systemIconsMultiRow":
++			case "notificationAreaMultiRow":
++			case "SBIgnoredIcons":
++			case "KGIgnoredIcons":
++			case "QSIgnoredIcons":
++				return !iconifyCompatibilityMode;
++
+ 			case "ForceThemedLauncherIcons":
+ 				return !instance.mPreferences.getBoolean("DisableThemedIconsPref", false);
+ 
+@@ -155,7 +165,7 @@ public class PreferenceHelper {
+ 				return instance.mPreferences.getBoolean("SyncNTPTime", false);
+ 
+ 			case "systemIconSortPlan":
+-				return instance.mPreferences.getBoolean("systemIconsMultiRow", false);
++				return !iconifyCompatibilityMode && instance.mPreferences.getBoolean("systemIconsMultiRow", false);
+ 
+ 			case "networkStatDLColor":
+ 			case "networkStatULColor":
+@@ -471,4 +481,4 @@ public class PreferenceHelper {
+ 		}
+ 	}
+ 
+-}
+\ No newline at end of file
++}
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+index 90a10fec..59eec089 100644
+--- a/app/src/main/res/values/strings.xml
++++ b/app/src/main/res/values/strings.xml
+@@ -595,5 +595,8 @@
+     <string name="restart_now">Reboot now</string>
+     <string name="watts">Watts</string>
+     <string name="fast_charging_threshold_title">Fast charging threshold</string>
++    <string name="compatibility_section_title">Compatibility</string>
++    <string name="iconify_compatibility_mode_title">Iconify compatibility mode</string>
++    <string name="iconify_compatibility_mode_summary">Hide PixelXpert status bar icon and notification controls that overlap with Iconify.</string>
+ 
+ </resources>
+diff --git a/app/src/main/res/xml/quicksettings_prefs.xml b/app/src/main/res/xml/quicksettings_prefs.xml
+index bb400b16..bca34a7c 100644
+--- a/app/src/main/res/xml/quicksettings_prefs.xml
++++ b/app/src/main/res/xml/quicksettings_prefs.xml
+@@ -9,6 +9,20 @@
+ 		app:lottie_rawRes="@raw/lottie_quick_settings"
+ 		search:ignore="true" />
+ 
++	<sh.siava.pixelxpert.ui.preferences.MaterialPreferenceCategory
++		android:title="@string/compatibility_section_title"
++		app:iconSpaceReserved="false"
++		search:ignore="true">
++
++		<sh.siava.pixelxpert.ui.preferences.MaterialSwitchPreference
++			android:defaultValue="false"
++			android:key="IconifyCompatibilityMode"
++			android:summary="@string/iconify_compatibility_mode_summary"
++			android:title="@string/iconify_compatibility_mode_title"
++			app:iconSpaceReserved="false" />
++
++	</sh.siava.pixelxpert.ui.preferences.MaterialPreferenceCategory>
++
+ 	<sh.siava.pixelxpert.ui.preferences.MaterialPreferenceCategory
+ 		android:title="@string/quick_settings_tiles_category"
+ 		app:iconSpaceReserved="false"
+@@ -102,4 +116,4 @@
+ 			app:iconSpaceReserved="false" />
+ 
+ 	</sh.siava.pixelxpert.ui.preferences.MaterialPreferenceCategory>
+-</PreferenceScreen>
+\ No newline at end of file
++</PreferenceScreen>
+diff --git a/app/src/main/res/xml/statusbar_settings.xml b/app/src/main/res/xml/statusbar_settings.xml
+index 247126c8..10a64b84 100644
+--- a/app/src/main/res/xml/statusbar_settings.xml
++++ b/app/src/main/res/xml/statusbar_settings.xml
+@@ -9,6 +9,20 @@
+         app:lottie_rawRes="@raw/statusbar"
+         search:ignore="true" />
+ 
++    <sh.siava.pixelxpert.ui.preferences.MaterialPreferenceCategory
++        android:title="@string/compatibility_section_title"
++        app:iconSpaceReserved="false"
++        search:ignore="true">
++
++        <sh.siava.pixelxpert.ui.preferences.MaterialSwitchPreference
++            android:defaultValue="false"
++            android:key="IconifyCompatibilityMode"
++            android:summary="@string/iconify_compatibility_mode_summary"
++            android:title="@string/iconify_compatibility_mode_title"
++            app:iconSpaceReserved="false" />
++
++    </sh.siava.pixelxpert.ui.preferences.MaterialPreferenceCategory>
++
+     <sh.siava.pixelxpert.ui.preferences.MaterialPreferenceCategory
+         android:title="@string/statusbar_general_options"
+         app:iconSpaceReserved="false"
+@@ -214,4 +228,4 @@
+ 
+     </sh.siava.pixelxpert.ui.preferences.MaterialPreferenceCategory>
+ 
+-</PreferenceScreen>
+\ No newline at end of file
++</PreferenceScreen>
